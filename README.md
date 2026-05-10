@@ -56,17 +56,29 @@ The interface is intentionally dark, dense, keyboard friendly, and operational. 
 
 ## UI Screenshots
 
-### Skill Marketplace Mobile
+### Landing Page
 
-The marketplace is designed to remain usable on narrow screens while keeping search, preview, installation, and custom skill creation within reach.
+The landing page introduces SignalNest with a cinematic product preview and direct routes into the app, sign in, signup, pricing, and documentation flows.
 
-<img src="docs/screenshots/skill-marketplace-mobile-top.png" alt="SignalNest skill marketplace mobile top view" width="360">
+![SignalNest landing page desktop screenshot](docs/screenshots/landing-desktop.png)
 
-### Sticky Marketplace Panels
+### Workspace Dashboard
 
-Marketplace side panels stay accessible while browsing the skill catalog, including installed skills, free extension policy, and the custom skill builder.
+The main app dashboard presents monitoring health, active signals, operational panels, and quick access into the platform routes.
 
-<img src="docs/screenshots/skill-marketplace-mobile-scrolled.png" alt="SignalNest skill marketplace mobile scrolled view" width="360">
+![SignalNest dashboard desktop screenshot](docs/screenshots/dashboard-desktop.png)
+
+### Skill Marketplace
+
+The marketplace includes searchable signal packs, animated previews, install actions, free extension policy, installed skills, and a custom skill builder.
+
+![SignalNest skill marketplace desktop screenshot](docs/screenshots/skill-marketplace-desktop.png)
+
+### Developer Console
+
+The developer console includes API keys, webhooks, request logs, usage, documentation links, and API pricing entry points.
+
+![SignalNest developer console desktop screenshot](docs/screenshots/developers-desktop.png)
 
 ## Feature Map
 
