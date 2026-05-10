@@ -1,0 +1,214 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum TrackerKind {
+  website
+  rss
+  api
+  github
+  news
+  stock
+  weather
+  outage
+  keyword
+  subreddit
+}
+
+enum Severity {
+  low
+  medium
+  high
+  critical
+}
+
+model User {
+  id           String       @id @default(cuid())
+  email        String       @unique
+  passwordHash String
+  mfaEnabled   Boolean      @default(false)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  workspaces   Workspace[]
+  sessions     Session[]
+  auditLogs    AuditLog[]
+  settings     UserSetting?
+}
+
+model Session {
+  id             String   @id @default(cuid())
+  userId         String
+  refreshHash    String
+  tokenFamilyId  String
+  userAgent      String?
+  ipAddress      String?
+  revokedAt      DateTime?
+  expiresAt      DateTime
+  createdAt      DateTime @default(now())
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, expiresAt])
+  @@index([tokenFamilyId])
+}
+
+model Workspace {
+  id        String    @id @default(cuid())
+  userId    String
+  name      String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  boards    Board[]
+  settings  Json      @default("{}")
+
+  @@index([userId, updatedAt])
+}
+
+model Board {
+  id          String      @id @default(cuid())
+  workspaceId String
+  name        String
+  layout      Json        @default("{}")
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  workspace   Workspace   @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  trackers    Tracker[]
+  snapshots   Snapshot[]
+
+  @@index([workspaceId, updatedAt])
+}
+
+model Tracker {
+  id              String       @id @default(cuid())
+  boardId         String
+  kind            TrackerKind
+  title           String
+  source          String
+  intervalSeconds Int          @default(300)
+  tags            String[]     @default([])
+  enabled         Boolean      @default(true)
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  board           Board        @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  snapshots       Snapshot[]
+  alerts          AlertRule[]
+  events          SignalEvent[]
+
+  @@index([boardId, kind])
+  @@index([enabled, updatedAt])
+}
+
+model Snapshot {
+  id          String   @id @default(cuid())
+  boardId     String
+  trackerId   String
+  contentHash String
+  textContent String?
+  imageUrl    String?
+  metadata    Json     @default("{}")
+  createdAt   DateTime @default(now())
+  board       Board    @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  tracker     Tracker  @relation(fields: [trackerId], references: [id], onDelete: Cascade)
+
+  @@index([trackerId, createdAt])
+  @@index([contentHash])
+}
+
+model AlertRule {
+  id          String    @id @default(cuid())
+  trackerId   String?
+  name        String
+  condition   String
+  priority    Severity
+  enabled     Boolean   @default(true)
+  muteWindow  String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  tracker     Tracker?  @relation(fields: [trackerId], references: [id], onDelete: SetNull)
+  deliveries  Notification[]
+
+  @@index([enabled, priority])
+}
+
+model Notification {
+  id          String    @id @default(cuid())
+  alertRuleId String?
+  title       String
+  body        String
+  priority    Severity
+  readAt      DateTime?
+  createdAt   DateTime  @default(now())
+  alertRule   AlertRule? @relation(fields: [alertRuleId], references: [id], onDelete: SetNull)
+
+  @@index([createdAt])
+  @@index([readAt])
+}
+
+model SignalEvent {
+  id        String   @id @default(cuid())
+  trackerId String?
+  title     String
+  source    String
+  severity  Severity
+  summary   String
+  metadata  Json     @default("{}")
+  createdAt DateTime @default(now())
+  tracker   Tracker? @relation(fields: [trackerId], references: [id], onDelete: SetNull)
+
+  @@index([trackerId, createdAt])
+  @@index([severity, createdAt])
+}
+
+model SavedItem {
+  id         String   @id @default(cuid())
+  userId     String
+  title      String
+  kind       String
+  url        String?
+  collection String
+  tags       String[] @default([])
+  content    String?
+  metadata   Json     @default("{}")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([userId, collection])
+  @@index([tags], type: Gin)
+}
+
+model AnalyticsRollup {
+  id        String   @id @default(cuid())
+  scope     String
+  bucket    DateTime
+  metrics   Json
+  createdAt DateTime @default(now())
+
+  @@unique([scope, bucket])
+}
+
+model UserSetting {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  theme     String   @default("dark")
+  density   String   @default("comfortable")
+  shortcuts Json     @default("{}")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  action    String
+  ipAddress String?
+  metadata  Json     @default("{}")
+  createdAt DateTime @default(now())
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId, createdAt])
+  @@index([action, createdAt])
+}

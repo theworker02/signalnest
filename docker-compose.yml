@@ -1,0 +1,59 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: signalnest
+      POSTGRES_PASSWORD: signalnest
+      POSTGRES_DB: signalnest
+    ports:
+      - "5432:5432"
+    volumes:
+      - signalnest-postgres:/var/lib/postgresql/data
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - signalnest-redis:/data
+  nginx:
+    image: nginx:1.27-alpine
+    depends_on:
+      - api
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+  prometheus:
+    image: prom/prometheus:v2.55.1
+    depends_on:
+      - api
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./monitoring/signalnest-alerts.yml:/etc/prometheus/rules/signalnest-alerts.yml:ro
+  grafana:
+    image: grafana/grafana:11.3.1
+    depends_on:
+      - prometheus
+    ports:
+      - "3001:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: signalnest
+      GF_SECURITY_ADMIN_PASSWORD: signalnest
+  api:
+    build:
+      context: .
+      dockerfile: docker/backend.Dockerfile
+    env_file: ./backend/.env
+    environment:
+      HOST: 0.0.0.0
+    depends_on:
+      - postgres
+      - redis
+    ports:
+      - "4040:4040"
+volumes:
+  signalnest-postgres:
+  signalnest-redis:

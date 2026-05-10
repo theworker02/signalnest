@@ -1,0 +1,22 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="512" height="512" rx="108" fill="#070A10"/>
+  <rect x="44" y="44" width="424" height="424" rx="82" fill="#0D121B" stroke="url(#rim)" stroke-width="3"/>
+  <path d="M326 151H226C185.683 151 153 183.683 153 224C153 264.317 185.683 297 226 297H286C307.539 297 325 314.461 325 336C325 357.539 307.539 375 286 375H166" stroke="url(#mark)" stroke-width="46" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M346 151L383 151M346 375L383 375" stroke="#4AD7FF" stroke-width="24" stroke-linecap="round"/>
+  <circle cx="153" cy="224" r="18" fill="#F2B84B"/>
+  <circle cx="325" cy="336" r="18" fill="#A58BFF"/>
+  <circle cx="383" cy="151" r="14" fill="#4AD7FF"/>
+  <circle cx="383" cy="375" r="14" fill="#4AD7FF"/>
+  <defs>
+    <linearGradient id="rim" x1="78" y1="60" x2="447" y2="455" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4AD7FF"/>
+      <stop offset="0.56" stop-color="#273142"/>
+      <stop offset="1" stop-color="#A58BFF"/>
+    </linearGradient>
+    <linearGradient id="mark" x1="153" y1="151" x2="336" y2="378" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#EAF6FF"/>
+      <stop offset="0.5" stop-color="#4AD7FF"/>
+      <stop offset="1" stop-color="#A58BFF"/>
+    </linearGradient>
+  </defs>
+</svg>

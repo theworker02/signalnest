@@ -1,0 +1,63 @@
+{
+  "title": "SignalNest Operations",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "15s",
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "API Request Rate",
+      "gridPos": { "x": 0, "y": 0, "w": 12, "h": 8 },
+      "targets": [
+        {
+          "expr": "sum(rate(http_requests_total[5m]))",
+          "legendFormat": "requests/sec"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Tracker Lag",
+      "gridPos": { "x": 12, "y": 0, "w": 12, "h": 8 },
+      "targets": [
+        {
+          "expr": "signalnest_tracker_lag_seconds",
+          "legendFormat": "lag seconds"
+        }
+      ]
+    },
+    {
+      "type": "stat",
+      "title": "Open WebSocket Connections",
+      "gridPos": { "x": 0, "y": 8, "w": 8, "h": 6 },
+      "targets": [
+        {
+          "expr": "signalnest_websocket_connections",
+          "legendFormat": "connections"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Alert Delivery Failures",
+      "gridPos": { "x": 8, "y": 8, "w": 8, "h": 6 },
+      "targets": [
+        {
+          "expr": "increase(signalnest_alert_delivery_failures_total[15m])",
+          "legendFormat": "failures"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Snapshot Volume",
+      "gridPos": { "x": 16, "y": 8, "w": 8, "h": 6 },
+      "targets": [
+        {
+          "expr": "increase(signalnest_snapshots_total[1h])",
+          "legendFormat": "snapshots/hour"
+        }
+      ]
+    }
+  ]
+}

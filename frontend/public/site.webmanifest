@@ -1,0 +1,16 @@
+{
+  "name": "SignalNest",
+  "short_name": "SignalNest",
+  "description": "Personal internet intelligence workspace.",
+  "icons": [
+    {
+      "src": "/signalnest-icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "theme_color": "#080a0f",
+  "background_color": "#080a0f",
+  "display": "standalone"
+}

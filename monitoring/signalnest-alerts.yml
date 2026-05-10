@@ -1,0 +1,40 @@
+groups:
+  - name: signalnest-api
+    rules:
+      - alert: SignalNestApiHighErrorRate
+        expr: sum(rate(http_requests_total{status=~"5.."}[5m])) / sum(rate(http_requests_total[5m])) > 0.03
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: SignalNest API 5xx rate is above 3%
+          description: Investigate recent deploys, database saturation, and upstream source fetch failures.
+
+      - alert: SignalNestWebsocketDrop
+        expr: signalnest_websocket_connections < 1
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: No active websocket clients
+          description: Live signal delivery may be down or blocked by proxy configuration.
+
+  - name: signalnest-workers
+    rules:
+      - alert: SignalNestTrackerLag
+        expr: signalnest_tracker_lag_seconds > 300
+        for: 10m
+        labels:
+          severity: high
+        annotations:
+          summary: Tracker execution lag is above five minutes
+          description: Worker queues are not keeping up with configured monitor intervals.
+
+      - alert: SignalNestAlertDeliveryFailures
+        expr: increase(signalnest_alert_delivery_failures_total[15m]) > 10
+        for: 5m
+        labels:
+          severity: high
+        annotations:
+          summary: Alert delivery failures are elevated
+          description: Check push, webhook, email, and browser notification providers.

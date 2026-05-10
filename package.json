@@ -1,0 +1,40 @@
+{
+  "name": "signalnest",
+  "private": true,
+  "version": "0.1.0",
+  "description": "SignalNest personal internet intelligence workspace",
+  "scripts": {
+    "dev": "concurrently -n frontend,backend -c cyan,amber \"npm run dev --workspace frontend\" \"npm run dev --workspace backend\"",
+    "dev:frontend": "npm run dev --workspace frontend",
+    "dev:backend": "npm run dev --workspace backend",
+    "build": "npm run build --workspace @signalnest/sdk && npm run build --workspace frontend && npm run build --workspace backend",
+    "typecheck": "npm run typecheck --workspace @signalnest/sdk && npm run typecheck --workspace frontend && npm run typecheck --workspace backend",
+    "lint": "npm run lint --workspace frontend",
+    "test": "cross-env NODE_ENV=test node --import tsx --test \"tests/**/*.test.ts\"",
+    "api": "tsx shared/src/cli.ts",
+    "api:help": "tsx shared/src/cli.ts help",
+    "check:env": "node scripts/check-env.mjs",
+    "db:seed": "node scripts/seed-database.mjs",
+    "clean": "node scripts/prune-local-artifacts.mjs",
+    "release": "npm run build && node scripts/generate-release-artifacts.mjs",
+    "release:artifacts": "node scripts/generate-release-artifacts.mjs"
+  },
+  "workspaces": [
+    "frontend",
+    "backend",
+    "shared"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "cross-env": "^10.1.0",
+    "playwright": "^1.59.1",
+    "tsx": "^4.21.0"
+  },
+  "dependencies": {
+    "ffmpeg": "^0.0.4",
+    "pg": "^8.20.0"
+  }
+}
