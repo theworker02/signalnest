@@ -60,13 +60,13 @@ The interface is intentionally dark, dense, keyboard friendly, and operational. 
 
 The marketplace is designed to remain usable on narrow screens while keeping search, preview, installation, and custom skill creation within reach.
 
-![SignalNest skill marketplace mobile top view](docs/screenshots/skill-marketplace-mobile-top.png)
+<img src="docs/screenshots/skill-marketplace-mobile-top.png" alt="SignalNest skill marketplace mobile top view" width="360">
 
 ### Sticky Marketplace Panels
 
 Marketplace side panels stay accessible while browsing the skill catalog, including installed skills, free extension policy, and the custom skill builder.
 
-![SignalNest skill marketplace mobile scrolled view](docs/screenshots/skill-marketplace-mobile-scrolled.png)
+<img src="docs/screenshots/skill-marketplace-mobile-scrolled.png" alt="SignalNest skill marketplace mobile scrolled view" width="360">
 
 ## Feature Map
 
