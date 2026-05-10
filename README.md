@@ -14,6 +14,7 @@ The product is designed for people who need to notice meaningful changes early: 
 ## Contents
 
 - [Product Vision](#product-vision)
+- [UI Screenshots](#ui-screenshots)
 - [Feature Map](#feature-map)
 - [Architecture](#architecture)
 - [Project Structure](#project-structure)
@@ -52,6 +53,20 @@ Examples of signals include:
 Signals can be collected by trackers, marketplace skills, API integrations, custom scripts, or manual research. Once captured, they can be routed into boards, alerts, timelines, maps, vault entries, and analytics views.
 
 The interface is intentionally dark, dense, keyboard friendly, and operational. The design inspiration sits closer to Linear, Arc, Raycast, Vercel, Bloomberg-style dashboards, and modern security tooling than to a traditional SaaS landing page.
+
+## UI Screenshots
+
+### Skill Marketplace Mobile
+
+The marketplace is designed to remain usable on narrow screens while keeping search, preview, installation, and custom skill creation within reach.
+
+![SignalNest skill marketplace mobile top view](docs/screenshots/skill-marketplace-mobile-top.png)
+
+### Sticky Marketplace Panels
+
+Marketplace side panels stay accessible while browsing the skill catalog, including installed skills, free extension policy, and the custom skill builder.
+
+![SignalNest skill marketplace mobile scrolled view](docs/screenshots/skill-marketplace-mobile-scrolled.png)
 
 ## Feature Map
 

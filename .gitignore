@@ -55,6 +55,8 @@ mobile-*.png
 trace.zip
 traces/
 screenshots/
+!docs/screenshots/
+!docs/screenshots/*.png
 
 # Release/package artifacts
 *.tgz
